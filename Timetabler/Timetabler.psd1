@@ -77,6 +77,7 @@
         'Get-CTCourseModule',
         'Get-CTDepartment',
         'Get-CTEquipment',
+        'Get-CTFaculty',
         'Get-CTGroup',
         'Get-CTModule',
         'Get-CTRole',
