@@ -72,6 +72,7 @@
     FunctionsToExport = @(
         'Connect-CT', 
         'Disconnect-CT',
+        'Get-CTAttendance',
         'Get-CTCourse',
         'Get-CTDepartment',
         'Get-CTGroup',
