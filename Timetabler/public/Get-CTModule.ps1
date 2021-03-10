@@ -103,7 +103,7 @@ function Get-CTModule {
             if ($LookupId3) {
                 $path += "lookupid3=$LookupId3&"
             }
-            if ($OrginId) {
+            if ($OriginId) {
                 $path += "originId=$OriginId&"
             }
             if ($Name) {

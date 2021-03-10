@@ -36,7 +36,7 @@ function Get-CTStaff {
         [string] $LookupId3,
 
         [Parameter(ParameterSetName='notid')]
-        [string] $OriginId,
+        [int] $OriginId,
 
         [Parameter(ParameterSetName='notid')]
         [string] $Name
@@ -99,7 +99,7 @@ function Get-CTStaff {
             if ($LookupId3) {
                 $path += "lookupid3=$LookupId3&"
             }
-            if ($OrginId) {
+            if ($OriginId) {
                 $path += "originId=$OriginId&"
             }
             if ($Name) {
