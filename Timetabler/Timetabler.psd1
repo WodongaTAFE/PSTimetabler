@@ -83,6 +83,7 @@
         'Get-CTRole',
         'Get-CTRoom',
         'Get-CTSite',
+        'Get-CTStaff',
         'Get-CTStudent',
         'Get-CTUser'
     )
