@@ -76,6 +76,7 @@
         'Get-CTDepartment',
         'Get-CTGroup',
         'Get-CTModule',
+        'Get-CTRole',
         'Get-CTRoom',
         'Get-CTSite',
         'Get-CTStudent'
