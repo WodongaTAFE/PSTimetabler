@@ -74,6 +74,7 @@
         'Disconnect-CT',
         'Get-CTAttendance',
         'Get-CTCourse',
+        'Get-CTCourseModule',
         'Get-CTDepartment',
         'Get-CTGroup',
         'Get-CTModule',
