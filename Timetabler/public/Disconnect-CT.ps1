@@ -4,7 +4,7 @@ Disconnects from the connected Timetabler instance.
 .DESCRIPTION
 Clears cached credentials for the connected Timetabler instance.
 #>
-function Disconnect-IC {
+function Disconnect-CT {
     [CmdletBinding()]
     param()
 
