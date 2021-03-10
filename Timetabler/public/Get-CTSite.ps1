@@ -1,9 +1,9 @@
-function Get-CTCourse {
+function Get-CTSite {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
         [Alias('id')]
-        [string] $CourseId,
+        [string] $SiteId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -53,10 +53,10 @@ function Get-CTCourse {
 
     process {
         if ($CourseId) {
-            $path = "/api/courses/$CourseId"
+            $path = "/api/sites/$SiteId"
         }
         else {
-            $path = '/api/courses?'
+            $path = '/api/sites?'
 
             if ($Page) {
                 $path += "page=$Page&"
@@ -88,6 +88,6 @@ function Get-CTCourse {
         }
         $uri = [uri]::new($url, $path)
         
-        Invoke-RestMethod -Uri $uri -Headers $headers | Add-Member -MemberType AliasProperty -Name CourseId -Value Id -PassThru 
+        Invoke-RestMethod -Uri $uri -Headers $headers | Add-Member -MemberType AliasProperty -Name SiteId -Value Id -PassThru 
     }
 }
