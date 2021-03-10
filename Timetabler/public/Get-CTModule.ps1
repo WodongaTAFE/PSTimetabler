@@ -68,7 +68,7 @@ function Get-CTModule {
             $path = "/api/modules/$ModuleId"
         }
         else {
-            $path = '/api/module?'
+            $path = '/api/modules?'
 
             if ($Page) {
                 $path += "page=$Page&"

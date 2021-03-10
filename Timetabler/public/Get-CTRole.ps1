@@ -18,9 +18,6 @@ function Get-CTRole {
         [ValidateSet('terse', 'normal', 'extended')]
         [string] $Detail,
 
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $DepartmentId,
-
         [Parameter(ParameterSetName='notid')]
         [string] $Name
     )
@@ -61,10 +58,7 @@ function Get-CTRole {
             if ($Detail) {
                 $path += "detail=$Detail&"
             }
-            if ($DepartmentId) {
-                $path += "departmentId=$DepartmentId&"
-            }
-              if ($Name) {
+            if ($Name) {
                 $path += "name=$Name&"
             }
         }
