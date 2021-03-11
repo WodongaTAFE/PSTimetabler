@@ -85,6 +85,7 @@
         'Get-CTSite',
         'Get-CTStaff',
         'Get-CTStudent',
+        'Get-CTTimetable',
         'Get-CTUser',
         'New-CTStaff',
         'New-CTUser'
