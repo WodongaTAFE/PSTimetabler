@@ -83,7 +83,6 @@ function New-CTDepartment {
             originalId = $OriginalId
         }
 
-        ConvertTo-Json $body
         if ($PSCmdlet.ShouldProcess($Name, 'Create department.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json' | Add-Member -MemberType AliasProperty -Name DepartmentID -Value Id -PassThru 
         }
