@@ -84,14 +84,21 @@
         'Get-CTRoom',
         'Get-CTSite',
         'Get-CTStaff',
+        'Get-CTStaffCategory',
         'Get-CTStudent',
+        'Get-CTTeam',
         'Get-CTTimetable',
         'Get-CTUser',
         'New-CTDepartment',
         'New-CTStaff',
+        'New-CTTeam',
         'New-CTUser',
+        'Remove-CTDepartment',
+        'Remove-CTStaff',
+        'Remove-CTTeam',
         'Remove-CTUser',
         'Set-CTStaff',
+        'Set-CTTeam',
         'Set-CTUser'
     )
 

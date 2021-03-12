@@ -101,7 +101,7 @@ function New-CTUser {
          }
 
         if ($PSCmdlet.ShouldProcess($Name, 'Create user.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json' | Add-Member -MemberType AliasProperty -Name UserId -Value Id -PassThru 
+            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json') | Add-Member -MemberType AliasProperty -Name UserId -Value Id -PassThru 
         }
     }
 }

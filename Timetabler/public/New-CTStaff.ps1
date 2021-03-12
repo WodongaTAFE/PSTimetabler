@@ -170,7 +170,7 @@ function New-CTStaff {
         }
 
         if ($PSCmdlet.ShouldProcess($UniqueName, 'Create staff.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json' | Add-Member -MemberType AliasProperty -Name StaffId -Value Id -PassThru 
+            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json') | Add-Member -MemberType AliasProperty -Name StaffId -Value Id -PassThru 
         }
     }
 }

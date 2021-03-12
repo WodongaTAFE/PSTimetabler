@@ -3,7 +3,7 @@ function Set-CTStaff {
     param (
         [Parameter(Mandatory, Position=0, ValueFromPipelineByPropertyName)]
         [Alias('Id')]
-        [string]$StaffId,
+        [int]$StaffId,
 
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [string]$UniqueName,

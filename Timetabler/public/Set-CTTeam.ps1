@@ -1,15 +1,18 @@
-function New-CTDepartment {
+function Set-CTTeam {
     [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Mandatory, Position=0, ValueFromPipelineByPropertyName)]
+        [Alias('Id')]
+        [int]$TeamId,
+
+        [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
+        [string] $UniqueName,
+
         [Parameter(ValueFromPipelineByPropertyName)]
         [string] $Name,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [int] $FacultyId,
-
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [Alias('Color')]
-        [int] $Colour,
+        [int] $DepartmentId,
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [int] $StaffId1,
@@ -18,16 +21,23 @@ function New-CTDepartment {
         [int] $StaffId2,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [Alias('telephoneNumber')]        
-        [string] $Telephone,
+        [string] $Custom1,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [Alias('EmailAddress')]
-        [string] $Email,
+        [string] $Custom2,
+
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [string] $Custom3,
+
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [bool] $Schedulable,
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [Alias('HomePage')]
         [string] $WebAdress,
+
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [string] $Notes,
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [string] $LookupId1,
@@ -63,19 +73,23 @@ function New-CTDepartment {
     }
 
     process {
-        $path = '/api/departments'
+        $path = "/api/teams/$TeamId"
 
         $uri = [uri]::new($url, $path)
         
         $body = @{
+            id = $TeamId
+            uniquename = $UniqueName
             name = $Name
-            facultyId = if ($PSBoundParameters.ContainsKey('FacultyId')) { $FacultyId } else { $null }
-            colour = if ($PSBoundParameters.ContainsKey('Colour')) { $Colour } else { $null }
+            departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId')) { $DepartmentId } else { $null }
             staffId1 = if ($PSBoundParameters.ContainsKey('StaffId1')) { $StaffId1 } else { $null }
             staffId2 = if ($PSBoundParameters.ContainsKey('StaffId2')) { $StaffId2 } else { $null }
-            telephone = $Telephone
-            email = $Email
+            custom1 = $Custom1
+            custom2 = $Custom2
+            custom3 = $Custom3
+            schedulable = if ($PSBoundParameters.ContainsKey('Schedulable')) { $Schedulable } else { $null }
             webAddress = $WebAdress
+            notes = $Notes
             lookupId1 = $LookupId1
             lookupId2 = $LookupId2
             lookupId3 = $LookupId3
@@ -83,8 +97,8 @@ function New-CTDepartment {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($Name, 'Create department.')) {
-            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json') | Add-Member -MemberType AliasProperty -Name DepartmentID -Value Id -PassThru 
+        if ($PSCmdlet.ShouldProcess($TeamId, 'Update team.')) {
+            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json')
         }
     }
 }
