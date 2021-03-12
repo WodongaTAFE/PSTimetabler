@@ -1,9 +1,9 @@
-function Get-CTStaffCategory {
+function Get-CTEventCategory {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
         [Alias('id')]
-        [string] $StaffCategoryId,
+        [string] $EventCategoryId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -52,11 +52,11 @@ function Get-CTStaffCategory {
     }
 
     process {
-        if ($StaffCategoryId) {
-            $path = "/api/staff-categories/$StaffCategoryId"
+        if ($EventCategoryId) {
+            $path = "/api/event-categories/$EventCategoryId"
         }
         else {
-            $path = '/api/staff-categories?'
+            $path = '/api/event-categories?'
 
             if ($Page) {
                 $path += "page=$Page&"
@@ -88,6 +88,6 @@ function Get-CTStaffCategory {
         }
         $uri = [uri]::new($url, $path)
         
-        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name StaffCategoryId -Value Id -PassThru 
+        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name EventCategoryId -Value Id -PassThru 
     }
 }
