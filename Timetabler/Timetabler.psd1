@@ -91,6 +91,7 @@
         'New-CTStaff',
         'New-CTUser',
         'Remove-CTUser',
+        'Set-CTStaff',
         'Set-CTUser'
     )
 

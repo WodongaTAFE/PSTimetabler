@@ -64,6 +64,6 @@ function Get-CTRole {
         }
         $uri = [uri]::new($url, $path)
         
-        Invoke-RestMethod -Uri $uri -Headers $headers | Add-Member -MemberType AliasProperty -Name RoleId -Value Id -PassThru 
+        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name RoleId -Value Id -PassThru 
     }
 }

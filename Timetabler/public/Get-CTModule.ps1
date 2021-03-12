@@ -112,6 +112,6 @@ function Get-CTModule {
         }
         $uri = [uri]::new($url, $path)
         
-        Invoke-RestMethod -Uri $uri -Headers $headers | Add-Member -MemberType AliasProperty -Name ModuleId -Value Id -PassThru 
+        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name ModuleId -Value Id -PassThru 
     }
 }

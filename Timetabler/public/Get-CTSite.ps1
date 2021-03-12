@@ -88,6 +88,6 @@ function Get-CTSite {
         }
         $uri = [uri]::new($url, $path)
         
-        Invoke-RestMethod -Uri $uri -Headers $headers | Add-Member -MemberType AliasProperty -Name SiteId -Value Id -PassThru 
+        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name SiteId -Value Id -PassThru 
     }
 }

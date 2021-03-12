@@ -75,6 +75,6 @@ function Get-CTAttendance {
         }
         $uri = [uri]::new($url, $path)
         
-        Invoke-RestMethod -Uri $uri -Headers $headers
+        (Invoke-RestMethod -Uri $uri -Headers $headers)
     }
 }

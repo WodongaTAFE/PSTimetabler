@@ -88,6 +88,6 @@ function Get-CTCourse {
         }
         $uri = [uri]::new($url, $path)
         
-        Invoke-RestMethod -Uri $uri -Headers $headers | Add-Member -MemberType AliasProperty -Name CourseId -Value Id -PassThru 
+        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name CourseId -Value Id -PassThru 
     }
 }
