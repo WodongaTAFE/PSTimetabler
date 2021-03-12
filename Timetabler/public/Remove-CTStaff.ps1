@@ -1,7 +1,7 @@
 function Remove-CTStaff {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory, Position=0, ParameterSetName='id')]
+        [Parameter(Mandatory, Position=0, ValueFromPipelineByPropertyName)]
         [Alias('id')]
         [string] $StaffId
     )

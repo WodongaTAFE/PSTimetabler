@@ -1,7 +1,7 @@
 function Remove-CTDepartment {
     [CmdletBinding(SupportsShouldProcess)]
     param (
-        [Parameter(Mandatory, Position=0, ParameterSetName='id')]
+        [Parameter(Mandatory, Position=0, ValueFromPipelineByPropertyName)]
         [Alias('Id')]
         [string] $DepartmentId
     )

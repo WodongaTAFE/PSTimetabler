@@ -1,9 +1,9 @@
-function Remove-CTTeam {
+function Remove-CTFaculty {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory, Position=0, ValueFromPipelineByPropertyName)]
         [Alias('Id')]
-        [string] $TeamId
+        [string] $FacultyId
     )
 
     begin {
@@ -24,11 +24,11 @@ function Remove-CTTeam {
     }
 
     process {
-        $path = "/api/teams/$TeamId"
+        $path = "/api/faculties/$FacultyId"
 
         $uri = [uri]::new($url, $path)
 
-        if ($PSCmdlet.ShouldProcess($TeamId, 'Delete team.')) {
+        if ($PSCmdlet.ShouldProcess($FacultyId, 'Delete faculty.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Delete
         }
     }
