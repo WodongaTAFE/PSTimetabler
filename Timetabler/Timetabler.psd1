@@ -91,6 +91,7 @@
         'Get-CTTeam',
         'Get-CTTimetable',
         'Get-CTUser',
+        'Get-CTWeekScheme',
         'New-CTDepartment',
         'New-CTStaff',
         'New-CTTeam',
