@@ -93,6 +93,7 @@
         'Get-CTUser',
         'Get-CTWeekScheme',
         'New-CTDepartment',
+        'New-CTFaculty',
         'New-CTStaff',
         'New-CTTeam',
         'New-CTUser',
