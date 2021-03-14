@@ -95,6 +95,7 @@
         'New-CTCourse',
         'New-CTDepartment',
         'New-CTFaculty',
+        'New-CTModule',
         'New-CTStaff',
         'New-CTTeam',
         'New-CTUser',
@@ -107,6 +108,7 @@
         'Set-CTCourse',
         'Set-CTDepartment',
         'Set-CTFaculty',
+        'Set-CTModule',
         'Set-CTStaff',
         'Set-CTTeam',
         'Set-CTUser'
