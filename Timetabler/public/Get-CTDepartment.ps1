@@ -14,7 +14,6 @@ function Get-CTDepartment {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [Parameter(ParameterSetName='notid')]
         [ValidateSet('terse', 'normal', 'extended')]
         [string] $Detail,
 

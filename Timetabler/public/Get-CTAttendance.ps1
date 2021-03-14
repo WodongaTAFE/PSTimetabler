@@ -22,7 +22,6 @@ function Get-CTAttendance {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [Parameter(ParameterSetName='notid')]
         [ValidateSet('terse', 'normal', 'extended')]
         [string] $Detail
     )

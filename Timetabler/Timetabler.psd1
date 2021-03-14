@@ -103,6 +103,7 @@
         'Remove-CTStaff',
         'Remove-CTTeam',
         'Remove-CTUser',
+        'Set-CTFaculty',
         'Set-CTStaff',
         'Set-CTTeam',
         'Set-CTUser'

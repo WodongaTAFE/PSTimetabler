@@ -1,20 +1,15 @@
 function Get-CTWeekScheme {
-    [CmdletBinding(DefaultParameterSetName='notid')]
+    [CmdletBinding()]
     param (
-        [Parameter(ParameterSetName='notid')]
         [int] $Page,
 
-        [Parameter(ParameterSetName='notid')]
         [int] $LastId,
 
-        [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [Parameter(ParameterSetName='notid')]
         [ValidateSet('terse', 'normal', 'extended')]
         [string] $Detail,
 
-        [Parameter(ParameterSetName='notid')]
         [string] $Name
     )
 
