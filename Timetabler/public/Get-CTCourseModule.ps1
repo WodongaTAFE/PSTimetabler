@@ -18,8 +18,7 @@ function Get-CTCourseModule {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [ValidateSet('terse', 'normal', 'extended')]
-        [string] $Detail
+        [switch] $Terse
     )
 
     begin {
@@ -55,15 +54,13 @@ function Get-CTCourseModule {
             if ($PageSize) {
                 $path += "pageSize=$PageSize&"
             }
-            if ($Detail) {
-                $path += "detail=$Detail&"
-            }
             if ($CourseId) {
                 $path += "courseId=$CourseId&"
             }
             if ($ModuleId) {
                 $path += "moduleId=$ModuleId&"
             }
+            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
         $uri = [uri]::new($url, $path)
         

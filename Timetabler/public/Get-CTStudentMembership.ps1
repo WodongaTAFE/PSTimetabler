@@ -13,8 +13,7 @@ function Get-CTStudentMembership {
 
         [int] $PageSize,
 
-        [ValidateSet('terse', 'normal', 'extended')]
-        [string] $Detail
+        [switch] $Terse
     )
 
     begin {
@@ -46,15 +45,13 @@ function Get-CTStudentMembership {
         if ($PageSize) {
             $path += "pageSize=$PageSize&"
         }
-        if ($Detail) {
-            $path += "detail=$Detail&"
-        }
         if ($StudentId) {
             $path += "courseId=$StudentId&"
         }
         if ($GroupId) {
             $path += "moduleId=$GroupId&"
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
 
         $uri = [uri]::new($url, $path)
         

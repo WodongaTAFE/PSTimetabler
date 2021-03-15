@@ -119,7 +119,7 @@ function Set-CTGroup {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($GroupId, 'Update group.')) {
+        if ($PSCmdlet.ShouldProcess("$UniqueName - $GroupId", 'Update group.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }

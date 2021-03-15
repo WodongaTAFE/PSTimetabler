@@ -14,9 +14,6 @@ function Get-CTUser {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [ValidateSet('terse', 'normal', 'extended')]
-        [string] $Detail,
-
         [Parameter(ParameterSetName='notid')]
         [string] $LookupId1,
 
@@ -33,7 +30,9 @@ function Get-CTUser {
         [string] $StudentId,
 
         [Parameter(ParameterSetName='notid')]
-        [string] $Name
+        [string] $Name,
+
+        [switch] $Terse
     )
 
     begin {
@@ -69,9 +68,6 @@ function Get-CTUser {
             if ($PageSize) {
                 $path += "pageSize=$PageSize&"
             }
-            if ($Detail) {
-                $path += "detail=$Detail&"
-            }
             if ($LookupId1) {
                 $path += "lookupid1=$LookupId1&"
             }
@@ -90,6 +86,7 @@ function Get-CTUser {
             if ($Name) {
                 $path += "name=$Name&"
             }
+            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
         $uri = [uri]::new($url, $path)
         

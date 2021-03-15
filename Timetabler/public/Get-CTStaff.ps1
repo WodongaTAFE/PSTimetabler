@@ -10,9 +10,6 @@ function Get-CTStaff {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [ValidateSet('terse', 'normal', 'extended')]
-        [string] $Detail,
-
         [Parameter(ParameterSetName='notid')]
         [string] $Custom1,
 
@@ -38,7 +35,9 @@ function Get-CTStaff {
         [int] $OriginId,
 
         [Parameter(ParameterSetName='notid')]
-        [string] $Name
+        [string] $Name,
+
+        [switch] $Terse
     )
 
     begin {
@@ -74,9 +73,6 @@ function Get-CTStaff {
             if ($PageSize) {
                 $path += "pageSize=$PageSize&"
             }
-            if ($Detail) {
-                $path += "detail=$Detail&"
-            }
             if ($Custom1) {
                 $path += "custom1=$Custom1&"
             }
@@ -104,6 +100,7 @@ function Get-CTStaff {
             if ($Name) {
                 $path += "name=$Name&"
             }
+            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
         $uri = [uri]::new($url, $path)
         

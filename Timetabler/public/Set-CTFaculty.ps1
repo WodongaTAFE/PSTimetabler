@@ -84,7 +84,7 @@ function Set-CTFaculty {
             originalId = $OriginalId
          }
 
-        if ($PSCmdlet.ShouldProcess($Id, 'Update faculty.')) {
+        if ($PSCmdlet.ShouldProcess($FacultyId, 'Update faculty.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }

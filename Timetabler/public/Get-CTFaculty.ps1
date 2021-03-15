@@ -14,9 +14,6 @@ function Get-CTFaculty {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [ValidateSet('terse', 'normal', 'extended')]
-        [string] $Detail,
-
         [Parameter(ParameterSetName='notid')]
         [string] $LookupId1,
 
@@ -30,7 +27,9 @@ function Get-CTFaculty {
         [string] $OriginId,
 
         [Parameter(ParameterSetName='notid')]
-        [string] $Name
+        [string] $Name,
+
+        [switch] $Terse
     )
 
     begin {
@@ -66,9 +65,6 @@ function Get-CTFaculty {
             if ($PageSize) {
                 $path += "pageSize=$PageSize&"
             }
-            if ($Detail) {
-                $path += "detail=$Detail&"
-            }
             if ($LookupId1) {
                 $path += "lookupid1=$LookupId1&"
             }
@@ -84,9 +80,17 @@ function Get-CTFaculty {
             if ($Name) {
                 $path += "name=$Name&"
             }
+            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
         $uri = [uri]::new($url, $path)
-        
-        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name FacultyId -Value Id -PassThru 
+ 
+        try {
+            (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name FacultyId -Value Id -PassThru 
+        }
+        catch {
+            if ($_.Exception.Response.StatusCode -ne 404) {
+                throw
+            }
+        }
     }
 }

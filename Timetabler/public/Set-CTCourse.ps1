@@ -77,7 +77,7 @@ function Set-CTCourse {
             originalId = $OriginalId
          }
 
-        if ($PSCmdlet.ShouldProcess($Id, 'Create course.')) {
+        if ($PSCmdlet.ShouldProcess("$Name - $CourseId", 'Update course.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }

@@ -14,11 +14,10 @@ function Get-CTRole {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [ValidateSet('terse', 'normal', 'extended')]
-        [string] $Detail,
-
         [Parameter(ParameterSetName='notid')]
-        [string] $Name
+        [string] $Name,
+
+        [switch] $Terse
     )
 
     begin {
@@ -54,12 +53,10 @@ function Get-CTRole {
             if ($PageSize) {
                 $path += "pageSize=$PageSize&"
             }
-            if ($Detail) {
-                $path += "detail=$Detail&"
-            }
             if ($Name) {
                 $path += "name=$Name&"
             }
+            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
         $uri = [uri]::new($url, $path)
         

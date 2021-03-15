@@ -7,10 +7,9 @@ function Get-CTWeekScheme {
 
         [int] $PageSize,
 
-        [ValidateSet('terse', 'normal', 'extended')]
-        [string] $Detail,
+        [string] $Name,
 
-        [string] $Name
+        [switch] $Terse
     )
 
     begin {
@@ -42,12 +41,10 @@ function Get-CTWeekScheme {
         if ($PageSize) {
             $path += "pageSize=$PageSize&"
         }
-        if ($Detail) {
-            $path += "detail=$Detail&"
-        }
         if ($Name) {
             $path += "name=$Name&"
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
 
         $uri = [uri]::new($url, $path)
         

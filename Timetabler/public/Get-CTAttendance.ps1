@@ -22,8 +22,7 @@ function Get-CTAttendance {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [ValidateSet('terse', 'normal', 'extended')]
-        [string] $Detail
+        [switch] $Terse
     )
 
     begin {
@@ -59,9 +58,6 @@ function Get-CTAttendance {
             if ($PageSize) {
                 $path += "pageSize=$PageSize&"
             }
-            if ($Detail) {
-                $path += "detail=$Detail&"
-            }
             if ($EventId) {
                 $path += "eventId=$EventId&"
             }
@@ -71,6 +67,7 @@ function Get-CTAttendance {
             if ($StudentId) {
                 $path += "studentId=$StudentId&"
             }
+            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
         $uri = [uri]::new($url, $path)
         
