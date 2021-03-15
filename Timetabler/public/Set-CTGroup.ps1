@@ -1,6 +1,10 @@
-function New-CTModule {
+function Set-CTGroup {
     [CmdletBinding(SupportsShouldProcess)]
     param (
+        [Parameter(Mandatory, Position=0, ValueFromPipelineByPropertyName)]
+        [Alias('Id')]
+        [int] $GroupId,
+
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
         [string]$UniqueName,
 
@@ -36,7 +40,14 @@ function New-CTModule {
         [int] $TotalTarget,
 
         [Parameter(ValueFromPipelineByPropertyName)]
+        [int] $TargetSize,
+
+        [Parameter(ValueFromPipelineByPropertyName)]
         [bool] $Schedulable,
+
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [Alias('EmailAddress')]
+        [string] $Email,
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [Alias('HomePage')]
@@ -79,11 +90,12 @@ function New-CTModule {
     }
 
     process {
-        $path = '/api/modules'
+        $path = "/api/group/$GroupId"
 
         $uri = [uri]::new($url, $path)
         
         $body = @{
+            id = $GroupId
             uniqueName = $UniqueName
             name = $Name
             departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId')) { $DepartmentId } else { $null }
@@ -95,7 +107,9 @@ function New-CTModule {
             custom3 = $Custom3
             weeklyTarget = if ($PSBoundParameters.ContainsKey('WeeklyTarget')) { $WeeklyTarget } else { $null }
             totalTarget	 = if ($PSBoundParameters.ContainsKey('TotalTarget')) { $TotalTarget } else { $null }
+            targetSize	 = if ($PSBoundParameters.ContainsKey('TargetSize')) { $TargetSize } else { $null }
             schedulable	 = if ($PSBoundParameters.ContainsKey('Schedulable')) { $Schedulable } else { $null }
+            email = $Email
             webAddress = $WebAddress
             notes = $Notes
             lookupId1 = $LookupId1
@@ -105,8 +119,8 @@ function New-CTModule {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($UniqueName, 'Create module.')) {
-            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json') | Add-Member -MemberType AliasProperty -Name ModuleId -Value Id -PassThru 
+        if ($PSCmdlet.ShouldProcess($GroupId, 'Update group.')) {
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }
 }

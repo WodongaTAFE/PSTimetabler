@@ -1,4 +1,4 @@
-function New-CTModule {
+function New-CTGroup {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory, ValueFromPipelineByPropertyName)]
@@ -36,7 +36,14 @@ function New-CTModule {
         [int] $TotalTarget,
 
         [Parameter(ValueFromPipelineByPropertyName)]
+        [int] $TargetSize,
+
+        [Parameter(ValueFromPipelineByPropertyName)]
         [bool] $Schedulable,
+
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [Alias('EmailAddress')]
+        [string] $Email,
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [Alias('HomePage')]
@@ -79,7 +86,7 @@ function New-CTModule {
     }
 
     process {
-        $path = '/api/modules'
+        $path = '/api/group'
 
         $uri = [uri]::new($url, $path)
         
@@ -95,7 +102,9 @@ function New-CTModule {
             custom3 = $Custom3
             weeklyTarget = if ($PSBoundParameters.ContainsKey('WeeklyTarget')) { $WeeklyTarget } else { $null }
             totalTarget	 = if ($PSBoundParameters.ContainsKey('TotalTarget')) { $TotalTarget } else { $null }
+            targetSize	 = if ($PSBoundParameters.ContainsKey('TargetSize')) { $TargetSize } else { $null }
             schedulable	 = if ($PSBoundParameters.ContainsKey('Schedulable')) { $Schedulable } else { $null }
+            email = $Email
             webAddress = $WebAddress
             notes = $Notes
             lookupId1 = $LookupId1
@@ -105,8 +114,8 @@ function New-CTModule {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($UniqueName, 'Create module.')) {
-            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json') | Add-Member -MemberType AliasProperty -Name ModuleId -Value Id -PassThru 
+        if ($PSCmdlet.ShouldProcess($UniqueName, 'Create group.')) {
+            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json') | Add-Member -MemberType AliasProperty -Name GroupId -Value Id -PassThru 
         }
     }
 }
