@@ -88,7 +88,7 @@ function Set-CTDepartment {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($DepartmentId, 'Update department.')) {
+        if ($PSCmdlet.ShouldProcess("$Name - $DepartmentId", 'Update department.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }

@@ -82,9 +82,9 @@ function Set-CTFaculty {
             lookupId3 = $LookupId3
             originId = if ($PSBoundParameters.ContainsKey('OriginId')) { $OriginId } else { $null }
             originalId = $OriginalId
-         }
+        }
 
-        if ($PSCmdlet.ShouldProcess($FacultyId, 'Update faculty.')) {
+        if ($PSCmdlet.ShouldProcess("$Name - $FacultyId", 'Update faculty.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }
