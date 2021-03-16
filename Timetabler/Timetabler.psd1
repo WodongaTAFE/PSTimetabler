@@ -101,6 +101,7 @@
         'New-CTGroup',
         'New-CTModule',
         'New-CTStaff',
+        'New-CTStudent',
         'New-CTTeam',
         'New-CTUser',
         'Remove-CTCourse',
