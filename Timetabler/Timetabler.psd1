@@ -120,6 +120,7 @@
         'Set-CTGroup',
         'Set-CTModule',
         'Set-CTStaff',
+        'Set-CTStudent',
         'Set-CTTeam',
         'Set-CTUser'
     )
