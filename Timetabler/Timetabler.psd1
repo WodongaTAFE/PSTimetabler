@@ -102,6 +102,7 @@
         'New-CTGroup',
         'New-CTModule',
         'New-CTStaff',
+        'New-CTStudent',
         'New-CTTeam',
         'New-CTUser',
         'New-CTUserRole',
@@ -121,6 +122,7 @@
         'Set-CTGroup',
         'Set-CTModule',
         'Set-CTStaff',
+        'Set-CTStudent',
         'Set-CTTeam',
         'Set-CTUser',
         'Set-CTUserRole'
