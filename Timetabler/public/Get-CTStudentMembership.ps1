@@ -46,10 +46,10 @@ function Get-CTStudentMembership {
             $path += "pageSize=$PageSize&"
         }
         if ($StudentId) {
-            $path += "courseId=$StudentId&"
+            $path += "studentId=$StudentId&"
         }
         if ($GroupId) {
-            $path += "moduleId=$GroupId&"
+            $path += "groupId=$GroupId&"
         }
         $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
 
