@@ -137,7 +137,7 @@ function New-CTStudent {
     }
 
     process {
-        $path = '/api/student'
+        $path = '/api/students'
 
         $uri = [uri]::new($url, $path)
         

@@ -141,7 +141,7 @@ function Set-CTStudent {
     }
 
     process {
-        $path = "/api/student/$StudentID"
+        $path = "/api/students/$StudentID"
 
         $uri = [uri]::new($url, $path)
         
