@@ -97,7 +97,7 @@ function Set-CTTeam {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($TeamId, 'Update team.')) {
+        if ($PSCmdlet.ShouldProcess("$UniqueName - $TeamId", 'Update team.')) {
             (Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json')
         }
     }

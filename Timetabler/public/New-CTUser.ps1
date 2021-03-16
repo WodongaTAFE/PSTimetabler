@@ -87,7 +87,7 @@ function New-CTUser {
             password = $pw
             ntName = $NTName
             ldapBindDn = $LDAPBindDN
-            departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId')) { $DepartmentId } else { $null }
+            departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId') -and $DepartmentId) { $DepartmentId } else { $null }
             staffId = if ($PSBoundParameters.ContainsKey('StaffId')) { $StaffId } else { $null }
             studentId = if ($PSBoundParameters.ContainsKey('StudentId')) { $StudentId } else { $null }
             mustChangePassword = if ($PSBoundParameters.ContainsKey('MustChangePassword')) { $MustChangePassword } else { $null }

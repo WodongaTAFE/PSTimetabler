@@ -90,6 +90,13 @@ function Get-CTUser {
         }
         $uri = [uri]::new($url, $path)
         
-        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name UserId -Value Id -PassThru 
+        try {
+            (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name UserId -Value Id -PassThru 
+        }
+        catch {
+            if ($_.Exception.Response.StatusCode -ne 404) {
+                throw
+            }
+        }
     }
 }

@@ -87,7 +87,7 @@ function Set-CTUser {
             active = if ($PSBoundParameters.ContainsKey('Active')) { $Active } else { $null }
             ntName = $NTName
             ldapBindDn = $LDAPBindDN
-            departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId')) { $DepartmentId } else { $null }
+            departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId') -and $DepartmentId) { $DepartmentId } else { $null }
             staffId = if ($PSBoundParameters.ContainsKey('StaffId')) { $StaffId } else { $null }
             studentId = if ($PSBoundParameters.ContainsKey('StudentId')) { $StudentId } else { $null }
             mustChangePassword = if ($PSBoundParameters.ContainsKey('MustChangePassword')) { $MustChangePassword } else { $null }
@@ -106,7 +106,7 @@ function Set-CTUser {
             $body.password = $marshal::PtrToStringAuto( $marshal::SecureStringToBSTR($Password) )
         }
         
-        if ($PSCmdlet.ShouldProcess($UserId, 'Update user.')) {
+        if ($PSCmdlet.ShouldProcess("$Name - $UserId", 'Update user.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }

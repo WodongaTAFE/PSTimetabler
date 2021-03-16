@@ -141,7 +141,7 @@ function Set-CTStaff {
             uniqueName = $UniqueName
             name = $Name
             title = $Title
-            departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId')) { $DepartmentId } else { $null }
+            departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId') -and $DepartmentId) { $DepartmentId } else { $null }
             sex	= $Sex
             address1 = $Address1
             address2 = $Address2
@@ -174,7 +174,7 @@ function Set-CTStaff {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($Id, 'Update staff.')) {
+        if ($PSCmdlet.ShouldProcess("$UniqueName - $StaffId", 'Update staff.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }

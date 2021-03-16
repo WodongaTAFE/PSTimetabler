@@ -109,7 +109,7 @@ function Set-CTModule {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($ModuleId, 'Update module.')) {
+        if ($PSCmdlet.ShouldProcess("$UniqueName - $ModuleId", 'Update module.')) {
             Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
         }
     }
