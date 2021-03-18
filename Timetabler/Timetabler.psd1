@@ -111,6 +111,7 @@
         'Remove-CTDepartment',
         'Remove-CTGroup',
         'Remove-CTModule',
+        'Remove-CTRole',
         'Remove-CTStaff',
         'Remove-CTStudentMembership',
         'Remove-CTTeam',
