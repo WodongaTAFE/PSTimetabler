@@ -184,7 +184,7 @@ function Set-CTStudent {
             originalId = $OriginalId
         }
 
-        if ($PSCmdlet.ShouldProcess($UniqueName, 'Update student.')) {
+        if ($PSCmdlet.ShouldProcess("$UniqueName - $StudentID", 'Update student.')) {
             (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json')
         }
     }
