@@ -86,7 +86,7 @@ function New-CTGroup {
     }
 
     process {
-        $path = '/api/group'
+        $path = '/api/groups'
 
         $uri = [uri]::new($url, $path)
         

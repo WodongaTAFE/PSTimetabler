@@ -43,7 +43,9 @@ function Set-CTFaculty {
         [int] $OriginId,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $OriginalId
+        [string] $OriginalId,
+
+        [switch] $PassThru
     )
 
     begin {
@@ -85,7 +87,11 @@ function Set-CTFaculty {
         }
 
         if ($PSCmdlet.ShouldProcess("$Name - $FacultyId", 'Update faculty.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json' | Out-Null
+        }
+
+        if ($PassThru) {
+            return $body
         }
     }
 }

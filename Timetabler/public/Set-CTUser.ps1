@@ -56,7 +56,9 @@ function Set-CTUser {
         [string] $LookupId2,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $LookupId3
+        [string] $LookupId3,
+
+        [switch] $PassThru
     )
 
     begin {
@@ -107,7 +109,11 @@ function Set-CTUser {
         }
         
         if ($PSCmdlet.ShouldProcess("$Name - $UserId", 'Update user.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json' | Out-Null
+        }
+        
+        if ($PassThru) {
+            return $body
         }
     }
 }

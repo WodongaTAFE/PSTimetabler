@@ -120,7 +120,9 @@ function Set-CTStudent {
         [int] $OriginId,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $OriginalId
+        [string] $OriginalId,
+
+        [switch] $PassThru
     )
 
     begin {
@@ -146,6 +148,7 @@ function Set-CTStudent {
         $uri = [uri]::new($url, $path)
         
         $body = @{
+            id = $StudentId
             uniqueName = $UniqueName
             name = $Name
             title = $Title
@@ -185,7 +188,11 @@ function Set-CTStudent {
         }
 
         if ($PSCmdlet.ShouldProcess("$UniqueName - $StudentID", 'Update student.')) {
-            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json')
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json' | Out-Null
+        }
+        
+        if ($PassThru) {
+            return $body
         }
     }
 }

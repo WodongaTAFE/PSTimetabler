@@ -8,8 +8,9 @@ function New-CTUserRole {
         [int] $RoleId,
 
         [Parameter(ValueFromPipelineByPropertyName)]
+        [Alias('Default')]
         [Alias('IsDefault')]
-        [bool] $Default
+        [bool] $DefaultRole
     )
 
     begin {
@@ -39,8 +40,8 @@ function New-CTUserRole {
             roleId = $RoleId
         }
 
-        if ($PSBoundParameters.ContainsKey('Default')) {
-            $body.Default = $Default
+        if ($PSBoundParameters.ContainsKey('DefaultRole')) {
+            $body.defaultRole = $DefaultRole
         }
 
         if ($PSCmdlet.ShouldProcess("$UserId-$RoleId", 'Create user role.')) {

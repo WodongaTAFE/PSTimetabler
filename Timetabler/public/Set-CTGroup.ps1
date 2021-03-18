@@ -69,7 +69,9 @@ function Set-CTGroup {
         [int] $OriginId,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $OriginalId
+        [string] $OriginalId,
+
+        [switch] $PassThru
     )
 
     begin {
@@ -90,7 +92,7 @@ function Set-CTGroup {
     }
 
     process {
-        $path = "/api/group/$GroupId"
+        $path = "/api/groups/$GroupId"
 
         $uri = [uri]::new($url, $path)
         
@@ -120,7 +122,11 @@ function Set-CTGroup {
         }
 
         if ($PSCmdlet.ShouldProcess("$UniqueName - $GroupId", 'Update group.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json' | Out-Null
+        }
+
+        if ($PassThru) {
+            return $body
         }
     }
 }

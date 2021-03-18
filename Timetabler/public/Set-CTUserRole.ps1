@@ -8,8 +8,11 @@ function Set-CTUserRole {
         [int] $RoleId,
 
         [Parameter(Mandatory, Position=2, ValueFromPipelineByPropertyName)]
+        [Alias('Default')]
         [Alias('IsDefault')]
-        [bool] $Default
+        [bool] $DefaultRole,
+
+        [switch] $PassThru
     )
 
     begin {
@@ -37,11 +40,15 @@ function Set-CTUserRole {
         $body = @{
             userId = $UserId
             roleId = $RoleId
-            default = $Default
+            defaultRole = $DefaultRole
         }
 
         if ($PSCmdlet.ShouldProcess("$UserId-$RoleId", 'Update user role.')) {
-            (Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json')
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json' | Out-Null
+        }
+        
+        if ($PassThru) {
+            return $body
         }
     }
 }

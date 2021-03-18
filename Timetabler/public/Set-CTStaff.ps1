@@ -111,7 +111,9 @@ function Set-CTStaff {
         [int] $OriginId,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $OriginalId
+        [string] $OriginalId,
+
+        [switch] $PassThru
     )
 
     begin {
@@ -175,7 +177,11 @@ function Set-CTStaff {
         }
 
         if ($PSCmdlet.ShouldProcess("$UniqueName - $StaffId", 'Update staff.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json' | Out-Null
+        }
+        
+        if ($PassThru) {
+            return $body
         }
     }
 }

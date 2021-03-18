@@ -9,7 +9,9 @@ function Set-CTCourseModule {
 
         [Parameter(ValueFromPipelineByPropertyName)]
         [ValidateSet('C', 'O')]
-        [string] $CoreOption
+        [string] $CoreOption,
+
+        [switch] $PassThru
     )
 
     begin {
@@ -38,10 +40,14 @@ function Set-CTCourseModule {
             courseId = $CourseId
             moduleId = $ModuleId
             coreOption = $CoreOption
-         }
+        }
 
         if ($PSCmdlet.ShouldProcess("$CourseId-$ModuleId", 'Update course module.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json' | Out-Null
+        }
+
+        if ($PassThru) {
+            return $body
         }
     }
 }

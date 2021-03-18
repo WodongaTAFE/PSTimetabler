@@ -62,7 +62,9 @@ function Set-CTModule {
         [int] $OriginId,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $OriginalId
+        [string] $OriginalId,
+
+        [switch] $PassThru
     )
 
     begin {
@@ -110,7 +112,11 @@ function Set-CTModule {
         }
 
         if ($PSCmdlet.ShouldProcess("$UniqueName - $ModuleId", 'Update module.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json'
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body (ConvertTo-Json $body) -ContentType 'application/json' | Out-Null
+        }
+
+        if ($PassThru) {
+            return $body
         }
     }
 }
