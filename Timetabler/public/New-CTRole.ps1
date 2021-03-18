@@ -77,19 +77,7 @@ function New-CTRole {
         [bool] $CanBookPortalMeetings = $false,
 
         [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $Description,
-
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [datetime] $DateChange,
-
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [int] $UserIdChange,
-
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $UserName,
-
-        [Parameter(ValueFromPipelineByPropertyName)]
-        [string] $ChangeOperation  
+        [string] $Description
     )
 
     begin {
@@ -141,17 +129,9 @@ function New-CTRole {
             canBookPortalRooms = $CanBookPortalRooms
             canBookPortalMeetings = $CanBookPortalMeetings
             description = $Description
-            dateChange = $DateChange
-            userIdChange = if ($PSBoundParameters.ContainsKey('UserIdChange')) { $UserIdChange } else { $null } 
-            userName = $UserName
-            changeOperation = $ChangeOperation
         }
 
-        if ($PSBoundParameters.ContainsKey('Default')) {
-            $body.Default = $Default
-        }
-
-        if ($PSCmdlet.ShouldProcess("$UserId-$RoleId", 'Create role.')) {
+        if ($PSCmdlet.ShouldProcess("$Name", 'Create role.')) {
             (Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json')
         }
     }
