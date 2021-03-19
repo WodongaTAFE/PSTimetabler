@@ -114,6 +114,7 @@
         'Remove-CTModule',
         'Remove-CTRole',
         'Remove-CTStaff',
+        'Remove-CTStudent',
         'Remove-CTStudentMembership',
         'Remove-CTTeam',
         'Remove-CTUser',

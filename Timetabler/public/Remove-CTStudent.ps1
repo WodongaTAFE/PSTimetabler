@@ -1,11 +1,9 @@
-function Add-CTStudentMembership {
+function Remove-CTStudent {
     [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory, Position=0, ValueFromPipelineByPropertyName)]
-        [int] $GroupId,
-
-        [Parameter(Mandatory, Position=1, ValueFromPipelineByPropertyName)]
-        [int] $StudentId
+        [Alias('id')]
+        [string] $StudentId
     )
 
     begin {
@@ -26,17 +24,12 @@ function Add-CTStudentMembership {
     }
 
     process {
-        $path = '/api/student-membership'
+        $path = "/api/students/$StudentId"
 
         $uri = [uri]::new($url, $path)
-        
-        $body = @{
-            groupId = $GroupId
-            studentId = $StudentId
-        }
 
-        if ($PSCmdlet.ShouldProcess("$GroupId-$StudentId", 'Create student membership.')) {
-            Invoke-RestMethod -Uri $uri -Headers $headers -Method Post -Body (ConvertTo-Json $body) -ContentType 'application/json'
+        if ($PSCmdlet.ShouldProcess($StudentId, 'Delete student.')) {
+            Invoke-RestMethod -Uri $uri -Headers $headers -Method Delete
         }
     }
 }

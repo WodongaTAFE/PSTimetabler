@@ -62,7 +62,7 @@ function Get-CTStudent {
     }
 
     process {
-        if ($RoomId) {
+        if ($StudentId) {
             $path = "/api/students/$StudentId"
         }
         else {
