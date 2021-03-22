@@ -51,7 +51,7 @@ function Get-CTStaffCategory {
 
     process {
         if ($StaffCategoryId) {
-            $path = "/api/staff-categories/$StaffCategoryId"
+            $path = "/api/staff-categories/$StaffCategoryId`?"
         }
         else {
             $path = '/api/staff-categories?'
@@ -80,8 +80,8 @@ function Get-CTStaffCategory {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name StaffCategoryId -Value Id -PassThru 

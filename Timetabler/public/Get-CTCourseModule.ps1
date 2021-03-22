@@ -40,7 +40,7 @@ function Get-CTCourseModule {
 
     process {
         if ($PSCmdlet.ParameterSetName -eq 'id') {
-            $path = "/api/course-modules/$CourseId-$ModuleId"
+            $path = "/api/course-modules/$CourseId-$ModuleId`?"
         }
         else {
             $path = '/api/course-modules?'
@@ -60,8 +60,8 @@ function Get-CTCourseModule {
             if ($ModuleId) {
                 $path += "moduleId=$ModuleId&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         (Invoke-RestMethod -Uri $uri -Headers $headers)

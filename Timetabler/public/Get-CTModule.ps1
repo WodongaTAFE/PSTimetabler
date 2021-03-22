@@ -63,7 +63,7 @@ function Get-CTModule {
 
     process {
         if ($ModuleId) {
-            $path = "/api/modules/$ModuleId"
+            $path = "/api/modules/$ModuleId`?"
         }
         else {
             $path = '/api/modules?'
@@ -104,8 +104,8 @@ function Get-CTModule {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
  
         try {

@@ -59,7 +59,7 @@ function Get-CTStaff {
 
     process {
         if ($StaffId) {
-            $path = "/api/staff/$StaffId"
+            $path = "/api/staff/$StaffId`?"
         }
         else {
             $path = '/api/staff?'
@@ -100,8 +100,8 @@ function Get-CTStaff {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
  
         try {

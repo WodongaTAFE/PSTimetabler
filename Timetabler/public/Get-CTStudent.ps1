@@ -63,7 +63,7 @@ function Get-CTStudent {
 
     process {
         if ($StudentId) {
-            $path = "/api/students/$StudentId"
+            $path = "/api/students/$StudentId`?"
         }
         else {
             $path = '/api/students?'
@@ -104,8 +104,8 @@ function Get-CTStudent {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
  
         try {

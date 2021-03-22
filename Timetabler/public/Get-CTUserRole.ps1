@@ -40,7 +40,7 @@ function Get-CTUserRole {
 
     process {
         if ($PSCmdlet.ParameterSetName -eq 'id') {
-            $path = "/api/user-roles/$UserId-$RoleId"
+            $path = "/api/user-roles/$UserId-$RoleId`?"
         }
         else {
             $path = '/api/user-roles?'
@@ -60,8 +60,8 @@ function Get-CTUserRole {
             if ($RoleId) {
                 $path += "roleId=$RoleId&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         (Invoke-RestMethod -Uri $uri -Headers $headers)

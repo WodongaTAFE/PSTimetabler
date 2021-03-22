@@ -51,7 +51,7 @@ function Get-CTCourse {
 
     process {
         if ($CourseId) {
-            $path = "/api/courses/$CourseId"
+            $path = "/api/courses/$CourseId`?"
         }
         else {
             $path = '/api/courses?'
@@ -80,8 +80,8 @@ function Get-CTCourse {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         try {

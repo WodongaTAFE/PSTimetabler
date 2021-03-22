@@ -63,7 +63,7 @@ function Get-CTGroup {
 
     process {
         if ($GroupId) {
-            $path = "/api/groups/$GroupId"
+            $path = "/api/groups/$GroupId`?"
         }
         else {
             $path = '/api/groups?'
@@ -104,8 +104,8 @@ function Get-CTGroup {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         try {

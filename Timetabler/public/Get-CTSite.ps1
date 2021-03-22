@@ -51,7 +51,7 @@ function Get-CTSite {
 
     process {
         if ($SiteId) {
-            $path = "/api/sites/$SiteId"
+            $path = "/api/sites/$SiteId`?"
         }
         else {
             $path = '/api/sites?'
@@ -80,8 +80,8 @@ function Get-CTSite {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name SiteId -Value Id -PassThru 

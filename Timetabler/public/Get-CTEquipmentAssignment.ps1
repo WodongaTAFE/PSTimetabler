@@ -1,9 +1,9 @@
-function Get-CTRole {
+function Get-CTEquipmentAssignment {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
         [Alias('id')]
-        [string] $RoleId,
+        [string] $EquipmentAssignmentId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -14,8 +14,17 @@ function Get-CTRole {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [Parameter(ParameterSetName='notid')]
-        [string] $Name,
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [int] $EventId,
+
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [int] $EquipmentId,
+
+        [switch] $WeekStartingDates,
+
+        [switch] $PrettyWeeks,
+
+        [int] $PrettyWeeksSchemeId,
 
         [switch] $Terse
     )
@@ -38,11 +47,11 @@ function Get-CTRole {
     }
 
     process {
-        if ($RoleId) {
-            $path = "/api/roles/$RoleId`?"
+        if ($EquipmentAssignmentId) {
+            $path = "/api/equipment-assignments/$EquipmentAssignmentId`?"
         }
         else {
-            $path = '/api/roles?'
+            $path = '/api/equipment-assignments?'
 
             if ($Page) {
                 $path += "page=$Page&"
@@ -53,15 +62,29 @@ function Get-CTRole {
             if ($PageSize) {
                 $path += "pageSize=$PageSize&"
             }
-            if ($Name) {
-                $path += "name=$Name&"
+            if ($EventId) {
+                $path += "eventId=$EventId&"
+            }
+            if ($EquipmentId) {
+                $path += "equipmentId=$EquipmentId&"
             }
         }
-        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
+        
+        if ($WeekStartingDates) {
+            $path += "weekStartingDates=true&"
+        }
+        if ($PrettyWeeks) {
+            $path += 'prettyWeeks=true&'
+        }
+        if ($PrettyWeeksSchemeId) {
+            $path += "prettyWeeksSchemeId=$PrettyWeeksSchemeId&"
+        }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }}) 
+
         $uri = [uri]::new($url, $path)
         
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name RoleId -Value Id -PassThru 
+            (Invoke-RestMethod -Uri $uri -Headers $headers) 
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {

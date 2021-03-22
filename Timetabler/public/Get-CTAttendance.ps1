@@ -44,7 +44,7 @@ function Get-CTAttendance {
 
     process {
         if ($PSCmdlet.ParameterSetName -eq 'id') {
-            $path = "/api/attendance/$EventId-$Week-$StudentId"
+            $path = "/api/attendance/$EventId-$Week-$StudentId`?"
         }
         else {
             $path = '/api/attendance?'
@@ -67,8 +67,8 @@ function Get-CTAttendance {
             if ($StudentId) {
                 $path += "studentId=$StudentId&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         (Invoke-RestMethod -Uri $uri -Headers $headers)

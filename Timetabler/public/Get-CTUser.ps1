@@ -54,7 +54,7 @@ function Get-CTUser {
 
     process {
         if ($UserId) {
-            $path = "/api/users/$UserId"
+            $path = "/api/users/$UserId`?"
         }
         else {
             $path = '/api/users?'
@@ -86,8 +86,8 @@ function Get-CTUser {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         try {

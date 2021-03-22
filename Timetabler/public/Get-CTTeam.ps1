@@ -63,7 +63,7 @@ function Get-CTTeam {
 
     process {
         if ($TeamId) {
-            $path = "/api/teams/$TeamId"
+            $path = "/api/teams/$TeamId`?"
         }
         else {
             $path = '/api/teams?'
@@ -104,8 +104,8 @@ function Get-CTTeam {
             if ($Name) {
                 $path += "name=$Name&"
             }
-            $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
         (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name TeamId -Value Id -PassThru 

@@ -1,9 +1,9 @@
-function Get-CTDepartment {
+function Get-CTGroupAssignment {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
         [Alias('id')]
-        [string] $DepartmentId,
+        [string] $GroupAssignmentId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -14,20 +14,17 @@ function Get-CTDepartment {
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
 
-        [Parameter(ParameterSetName='notid')]
-        [string] $LookupId1,
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [int] $EventId,
 
-        [Parameter(ParameterSetName='notid')]
-        [string] $LookupId2,
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [int] $GroupId,
 
-        [Parameter(ParameterSetName='notid')]
-        [string] $LookupId3,
+        [switch] $WeekStartingDates,
 
-        [Parameter(ParameterSetName='notid')]
-        [string] $OriginId,
+        [switch] $PrettyWeeks,
 
-        [Parameter(ParameterSetName='notid')]
-        [string] $Name,
+        [int] $PrettyWeeksSchemeId,
 
         [switch] $Terse
     )
@@ -50,11 +47,11 @@ function Get-CTDepartment {
     }
 
     process {
-        if ($DepartmentId) {
-            $path = "/api/departments/$DepartmentId`?"
+        if ($GroupAssignmentId) {
+            $path = "/api/group-assignments/$GroupAssignmentId`?"
         }
         else {
-            $path = '/api/departments?'
+            $path = '/api/group-assignments?'
 
             if ($Page) {
                 $path += "page=$Page&"
@@ -65,25 +62,34 @@ function Get-CTDepartment {
             if ($PageSize) {
                 $path += "pageSize=$PageSize&"
             }
-            if ($LookupId1) {
-                $path += "lookupid1=$LookupId1&"
+            if ($EventId) {
+                $path += "eventId=$EventId&"
             }
-            if ($LookupId2) {
-                $path += "lookupid2=$LookupId2&"
-            }
-            if ($LookupId3) {
-                $path += "lookupid3=$LookupId3&"
-            }
-            if ($OriginId) {
-                $path += "originId=$OriginId&"
-            }
-            if ($Name) {
-                $path += "name=$Name&"
+            if ($GroupId) {
+                $path += "groupId=$GroupId&"
             }
         }
-        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
-        $uri = [uri]::new($url, $path)
         
-        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name DepartmentId -Value Id -PassThru 
+        if ($WeekStartingDates) {
+            $path += 'weekStartingDates=true&'
+        }
+        if ($PrettyWeeks) {
+            $path += 'prettyWeeks=true&'
+        }
+        if ($PrettyWeeksSchemeId) {
+            $path += "prettyWeeksSchemeId=$PrettyWeeksSchemeId&"
+        }
+        $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
+        
+        $uri = [uri]::new($url, $path)
+ 
+        try {
+            (Invoke-RestMethod -Uri $uri -Headers $headers) 
+        }
+        catch {
+            if ($_.Exception.Response.StatusCode -ne 404) {
+                throw
+            }
+        }
     }
 }
