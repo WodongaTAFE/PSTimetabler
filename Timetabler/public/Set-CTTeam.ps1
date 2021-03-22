@@ -79,7 +79,7 @@ function Set-CTTeam {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [pscustomobject]@{
             id = $TeamId
             uniquename = $UniqueName
             name = $Name
@@ -104,7 +104,7 @@ function Set-CTTeam {
         }
         
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name TeamId -Value Id -PassThru 
         }
     }
 }

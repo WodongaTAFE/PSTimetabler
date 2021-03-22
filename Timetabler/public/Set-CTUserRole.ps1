@@ -37,7 +37,7 @@ function Set-CTUserRole {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [PSCustomObject]@{
             userId = $UserId
             roleId = $RoleId
             defaultRole = $DefaultRole

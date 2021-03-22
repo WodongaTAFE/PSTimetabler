@@ -70,7 +70,7 @@ function Set-CTFaculty {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [pscustomobject]@{
             id = $FacultyId
             name = $Name
             colour = if ($PSBoundParameters.ContainsKey('Colour')) { $Colour } else { $null }
@@ -91,7 +91,7 @@ function Set-CTFaculty {
         }
 
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name FacultyId -Value Id -PassThru 
         }
     }
 }

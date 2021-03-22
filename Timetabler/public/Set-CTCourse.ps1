@@ -64,7 +64,7 @@ function Set-CTCourse {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [PSCustomObject]@{
             id = $CourseId
             name = $Name
             departmentId = if ($PSBoundParameters.ContainsKey('DepartmentId')) { $DepartmentId } else { $null }
@@ -84,7 +84,7 @@ function Set-CTCourse {
         }
         
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name CourseID -Value Id -PassThru 
         }
     }
 }

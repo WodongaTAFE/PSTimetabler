@@ -36,7 +36,7 @@ function Set-CTCourseModule {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [PSCustomObject]@{
             courseId = $CourseId
             moduleId = $ModuleId
             coreOption = $CoreOption

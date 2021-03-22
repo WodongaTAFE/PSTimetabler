@@ -96,7 +96,7 @@ function Set-CTGroup {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [pscustomobject]@{
             id = $GroupId
             uniqueName = $UniqueName
             name = $Name
@@ -126,7 +126,7 @@ function Set-CTGroup {
         }
 
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name GroupId -Value Id -PassThru 
         }
     }
 }

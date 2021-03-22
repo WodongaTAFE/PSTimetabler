@@ -83,7 +83,7 @@ function Set-CTUser {
 
         $uri = [uri]::new($url, $path)
 
-        $body = @{
+        $body = [PSCustomObject]@{
             id = $UserId
             name = $Name
             active = if ($PSBoundParameters.ContainsKey('Active')) { $Active } else { $null }
@@ -113,7 +113,7 @@ function Set-CTUser {
         }
         
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name UserId -Value Id -PassThru 
         }
     }
 }

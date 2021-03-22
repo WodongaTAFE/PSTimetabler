@@ -138,7 +138,7 @@ function Set-CTStaff {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [PSCustomObject]@{
             id = $StaffId
             uniqueName = $UniqueName
             name = $Name
@@ -181,7 +181,7 @@ function Set-CTStaff {
         }
         
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name StaffId -Value Id -PassThru 
         }
     }
 }

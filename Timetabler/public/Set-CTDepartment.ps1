@@ -73,7 +73,7 @@ function Set-CTDepartment {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [pscustomobject]@{
             id = $DepartmentId
             name = $Name
             facultyId = if ($PSBoundParameters.ContainsKey('FacultyId')) { $FacultyId } else { $null }
@@ -95,7 +95,7 @@ function Set-CTDepartment {
         }
 
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name DepartmentId -Value Id -PassThru 
         }
     }
 }

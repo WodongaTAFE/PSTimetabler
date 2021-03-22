@@ -89,7 +89,7 @@ function Set-CTModule {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [pscustomobject]@{
             id = $ModuleId
             uniqueName = $UniqueName
             name = $Name
@@ -116,7 +116,7 @@ function Set-CTModule {
         }
 
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name ModuleId -Value Id -PassThru 
         }
     }
 }

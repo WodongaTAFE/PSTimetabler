@@ -147,7 +147,7 @@ function Set-CTStudent {
 
         $uri = [uri]::new($url, $path)
         
-        $body = @{
+        $body = [PSCustomObject]@{
             id = $StudentId
             uniqueName = $UniqueName
             name = $Name
@@ -192,7 +192,7 @@ function Set-CTStudent {
         }
         
         if ($PassThru) {
-            return $body
+            return $body | Add-Member -MemberType AliasProperty -Name StudentId -Value Id -PassThru 
         }
     }
 }
