@@ -12,7 +12,7 @@
     RootModule = 'Timetabler.psm1'
     
     # Version number of this module.
-    ModuleVersion = '0.1'
+    ModuleVersion = '0.2'
     
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -86,15 +86,23 @@
         'Get-CTGroupAssignment',
         'Get-CTLayout',
         'Get-CTModule',
+        'Get-CTModuleAssignment',
         'Get-CTRole',
         'Get-CTRoom',
+        'Get-CTRoomAssignment',
+        'Get-CTRoomFixture',
+        'Get-CTRoomLayout',
         'Get-CTSite',
         'Get-CTStaff',
+        'Get-CTStaffAssignment',
         'Get-CTStaffCategory',
         'Get-CTStudent',
+        'Get-CTStudentAssignment',
         'Get-CTStudentMembership',
         'Get-CTSupervisor',
         'Get-CTTeam',
+        'Get-CTTeamAssignment',
+        'Get-CTTeamMembership',
         'Get-CTTimetable',
         'Get-CTUser',
         'Get-CTUserRole',

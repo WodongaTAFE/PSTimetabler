@@ -15,6 +15,8 @@ The first thing you'll need to do is connect to the Celcat Timetabler API. We do
 
     Connect-CT 'https://celcatapi.example.com' -ApiCode 'myApiCode' -TimetableId 1
 
+Note that TimetableId should be specified if you have more than one timetable registered with your API. Otherwise only the Get-CTTimetable function will work.
+
 ## Disconnecting
 
 To ensure the API code is not preserved in your session, you can disconnect from the Timetabler API using this command:
