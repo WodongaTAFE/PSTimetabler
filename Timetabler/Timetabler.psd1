@@ -12,7 +12,7 @@
     RootModule = 'Timetabler.psm1'
     
     # Version number of this module.
-    ModuleVersion = '0.2'
+    ModuleVersion = '0.3'
     
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -79,6 +79,7 @@
         'Get-CTDepartment',
         'Get-CTEquipment',
         'Get-CTEquipmentAssignment',
+        'Get-CTEvent',
         'Get-CTEventCategory',
         'Get-CTFaculty',
         'Get-CTFixture',
