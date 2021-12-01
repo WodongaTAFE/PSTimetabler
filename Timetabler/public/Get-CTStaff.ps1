@@ -1,6 +1,10 @@
 function Get-CTStaff {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
+        [Parameter(Mandatory, Position=0, ParameterSetName='id', ValueFromPipelineByPropertyName)]
+        [Alias('id')]
+        [int] $StaffId,
+
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
 
@@ -108,6 +112,7 @@ function Get-CTStaff {
             (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name StaffId -Value Id -PassThru 
         }
         catch {
+            write-host 'yo!'
             if ($_.Exception.Response.StatusCode -ne 404) {
                 throw
             }

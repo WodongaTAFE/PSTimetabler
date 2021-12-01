@@ -1,7 +1,7 @@
 function Get-CTRoom {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
-        [Parameter(Mandatory, Position=0, ParameterSetName='id')]
+        [Parameter(Mandatory, Position=0, ParameterSetName='id', ValueFromPipelineByPropertyName)]
         [Alias('id')]
         [string] $Roomid,
 

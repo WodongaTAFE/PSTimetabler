@@ -84,7 +84,10 @@ function Get-CTRoomAssignment {
         $uri = [uri]::new($url, $path)
  
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            $response = (Invoke-RestMethod -Uri $uri -Headers $headers)
+            if ($response) {
+                return $response
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {
