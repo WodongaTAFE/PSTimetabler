@@ -78,12 +78,22 @@ function Get-CTDepartment {
                 $path += "originId=$OriginId&"
             }
             if ($Name) {
-                $path += "name=$Name&"
+                $path += "name=$([System.Web.HttpUtility]::UrlEncode($Name))&"
             }
         }
         $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
-        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name DepartmentId -Value Id -PassThru 
+        try {
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            if ($result) {
+                $result | Add-Member -MemberType AliasProperty -Name DepartmentId -Value Id -PassThru 
+            }
+        }
+        catch {
+            if ($_.Exception.Response.StatusCode -ne 404) {
+                throw
+            }
+        }
     }
 }

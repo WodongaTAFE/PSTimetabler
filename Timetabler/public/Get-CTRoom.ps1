@@ -108,6 +108,9 @@ function Get-CTRoom {
         $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
-        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name RoomId -Value Id -PassThru 
+        $result = (Invoke-RestMethod -Uri $uri -Headers $headers)
+        if ($result) {
+           $result | Add-Member -MemberType AliasProperty -Name RoomId -Value Id -PassThru 
+        }
     }
 }
