@@ -1,9 +1,13 @@
 function Get-CTEquipmentAssignment {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
-        [Alias('id')]
-        [string] $EquipmentAssignmentId,
+        [int] $EventId,
+
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory, Position=1, ParameterSetName='id')]
+        [int] $EquipmentId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -13,12 +17,6 @@ function Get-CTEquipmentAssignment {
 
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $EventId,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $EquipmentId,
 
         [switch] $WeekStartingDates,
 
@@ -47,8 +45,8 @@ function Get-CTEquipmentAssignment {
     }
 
     process {
-        if ($EquipmentAssignmentId) {
-            $path = "/api/equipment-assignments/$EquipmentAssignmentId`?"
+        if ($PSCmdlet.ParameterSetName -eq 'id') {
+            $path = "/api/equipment-assignments/$EventId-$EquipmentId`?"
         }
         else {
             $path = '/api/equipment-assignments?'
@@ -84,7 +82,10 @@ function Get-CTEquipmentAssignment {
         $uri = [uri]::new($url, $path)
         
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            if ($result) {
+                $result
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {
@@ -93,3 +94,5 @@ function Get-CTEquipmentAssignment {
         }
     }
 }
+
+New-Alias -Name Get-CTEventEquipment -Value Get-CTEquipmentAssignment

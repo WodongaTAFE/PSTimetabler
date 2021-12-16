@@ -93,3 +93,5 @@ function Get-CTStudentAssignment {
         }
     }
 }
+
+New-Alias -Name Get-CTEventStudent -Value Get-CTStudentAssignment

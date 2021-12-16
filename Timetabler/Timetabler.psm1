@@ -13,3 +13,5 @@ foreach ($Function in $AllFunctions) {
 }
 
 Export-ModuleMember -Function $PublicFunctions.BaseName
+
+Export-ModuleMember -Alias *

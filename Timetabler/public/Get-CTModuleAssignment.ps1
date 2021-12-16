@@ -1,9 +1,13 @@
 function Get-CTModuleAssignment {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
-        [Alias('id')]
-        [string] $ModuleAssignmentId,
+        [int] $EventId,
+
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory, Position=1, ParameterSetName='id')]
+        [int] $ModuleId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -13,12 +17,6 @@ function Get-CTModuleAssignment {
 
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $EventId,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $ModuleId,
 
         [switch] $WeekStartingDates,
 
@@ -47,8 +45,8 @@ function Get-CTModuleAssignment {
     }
 
     process {
-        if ($ModuleAssignmentId) {
-            $path = "/api/module-assignments/$ModuleAssignmentId`?"
+        if ($PSCmdlet.ParameterSetName -eq 'id') {
+            $path = "/api/module-assignments/$EventId-$ModuleId`?"
         }
         else {
             $path = '/api/module-assignments?'
@@ -84,7 +82,10 @@ function Get-CTModuleAssignment {
         $uri = [uri]::new($url, $path)
  
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            if ($result) {
+                $result
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {
@@ -93,3 +94,5 @@ function Get-CTModuleAssignment {
         }
     }
 }
+
+New-Alias -Name Get-CTEventModule -Value Get-CTModuleAssignment

@@ -93,3 +93,5 @@ function Get-CTTeamAssignment {
         }
     }
 }
+
+New-Alias -Name Get-CTEventTeam -Value Get-CTTeamAssignment

@@ -3,7 +3,7 @@ function Get-CTRoom {
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id', ValueFromPipelineByPropertyName)]
         [Alias('id')]
-        [string] $Roomid,
+        [int] $Roomid,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -108,9 +108,16 @@ function Get-CTRoom {
         $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
-        $result = (Invoke-RestMethod -Uri $uri -Headers $headers)
-        if ($result) {
-           $result | Add-Member -MemberType AliasProperty -Name RoomId -Value Id -PassThru 
+        try {
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers)
+            if ($result) {
+            $result | Add-Member -MemberType AliasProperty -Name RoomId -Value Id -PassThru 
+            }
+        }
+        catch {
+            if ($_.Exception.Response.StatusCode -ne 404) {
+                throw
+            }
         }
     }
 }

@@ -1,9 +1,13 @@
 function Get-CTRoomLayout {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
-        [Parameter(Mandatory, Position=0, ParameterSetName='id')]
-        [Alias('id')]
-        [string] $RoomLayoutId,
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [Parameter(ParameterSetName='id',Mandatory,Position=0)]
+        [int] $RoomId,
+        
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [Parameter(ParameterSetName='id',Mandatory,Position=1)]
+        [int] $LayoutId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -13,12 +17,6 @@ function Get-CTRoomLayout {
 
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $RoomId,
-        
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $LayoutId,
 
         [switch] $Terse
     )
@@ -41,8 +39,8 @@ function Get-CTRoomLayout {
     }
 
     process {
-        if ($RoomLayoutId) {
-            $path = "/api/room-layouts/$RoomLayoutId`?"
+        if ($PSCmdlet.ParameterSetName -eq 'id') {
+            $path = "/api/room-layouts/$RoomId-$LayoutId`?"
         }
         else {
             $path = '/api/room-layouts?'
@@ -68,7 +66,10 @@ function Get-CTRoomLayout {
         $uri = [uri]::new($url, $path)
  
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            if ($result) {
+                $result
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {

@@ -3,7 +3,7 @@ function Get-CTGroup {
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
         [Alias('id')]
-        [string] $GroupId,
+        [int] $GroupId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -109,7 +109,10 @@ function Get-CTGroup {
         $uri = [uri]::new($url, $path)
         
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name GroupId -Value Id -PassThru 
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            if ($result) {
+                $result | Add-Member -MemberType AliasProperty -Name GroupId -Value Id -PassThru 
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {

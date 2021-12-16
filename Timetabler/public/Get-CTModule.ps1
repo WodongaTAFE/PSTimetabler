@@ -3,7 +3,7 @@ function Get-CTModule {
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
         [Alias('id')]
-        [string] $ModuleId,
+        [int] $ModuleId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -109,7 +109,10 @@ function Get-CTModule {
         $uri = [uri]::new($url, $path)
  
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name ModuleId -Value Id -PassThru 
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers)
+            if ($result) {
+                $result | Add-Member -MemberType AliasProperty -Name ModuleId -Value Id -PassThru 
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {

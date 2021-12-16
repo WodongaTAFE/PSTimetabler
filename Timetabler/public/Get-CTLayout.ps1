@@ -3,7 +3,7 @@ function Get-CTLayout {
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
         [Alias('id')]
-        [string] $LayoutId,
+        [int] $LayoutId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -85,7 +85,10 @@ function Get-CTLayout {
         $uri = [uri]::new($url, $path)
  
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name LayoutId -Value Id -PassThru 
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            if ($result) {
+                $result | Add-Member -MemberType AliasProperty -Name LayoutId -Value Id -PassThru 
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {

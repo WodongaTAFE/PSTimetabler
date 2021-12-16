@@ -96,3 +96,5 @@ function Get-CTStaffAssignment {
         }
     }
 }
+
+New-Alias -Name Get-CTEventStaff -Value Get-CTStaffAssignment

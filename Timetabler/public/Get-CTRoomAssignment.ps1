@@ -1,9 +1,13 @@
 function Get-CTRoomAssignment {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
-        [Alias('id')]
-        [string] $RoomAssignmentId,
+        [int] $EventId,
+
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory, Position=1, ParameterSetName='id')]
+        [int] $RoomId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -13,12 +17,6 @@ function Get-CTRoomAssignment {
 
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $EventId,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $RoomId,
 
         [switch] $WeekStartingDates,
 
@@ -47,8 +45,8 @@ function Get-CTRoomAssignment {
     }
 
     process {
-        if ($RoomAssignmentId) {
-            $path = "/api/room-assignments/$RoomAssignmentId`?"
+        if ($PSCmdlet.ParameterSetName -eq 'id') {
+            $path = "/api/room-assignments/$EventId-$RoomId`?"
         }
         else {
             $path = '/api/room-assignments?'
@@ -96,3 +94,5 @@ function Get-CTRoomAssignment {
         }
     }
 }
+
+New-Alias -Name Get-CTEventRoom -Value Get-CTRoomAssignment

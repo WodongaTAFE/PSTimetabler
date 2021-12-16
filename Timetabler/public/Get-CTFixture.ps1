@@ -3,7 +3,7 @@ function Get-CTFixture {
     param (
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
         [Alias('id')]
-        [string] $FixtureId,
+        [int] $FixtureId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -84,6 +84,16 @@ function Get-CTFixture {
         $path += 'detail=' + (&{if ($Terse) { 'terse' } else { 'extended' }})
         $uri = [uri]::new($url, $path)
         
-        (Invoke-RestMethod -Uri $uri -Headers $headers) | Add-Member -MemberType AliasProperty -Name FixtureId -Value Id -PassThru 
+        try {
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers)
+            if ($result) {
+                $result | Add-Member -MemberType AliasProperty -Name FixtureId -Value Id -PassThru 
+            }
+        }
+        catch {
+            if ($_.Exception.Response.StatusCode -ne 404) {
+                throw
+            }
+        }
     }
 }

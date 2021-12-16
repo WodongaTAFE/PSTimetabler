@@ -1,9 +1,13 @@
 function Get-CTRoomFixture {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
-        [Alias('id')]
-        [string] $RoomFixtureId,
+        [int] $RoomId,
+        
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory, Position=1, ParameterSetName='id')]
+        [int] $FixtureId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -13,12 +17,6 @@ function Get-CTRoomFixture {
 
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $RoomId,
-        
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $FixtureId,
 
         [switch] $Terse
     )
@@ -41,8 +39,8 @@ function Get-CTRoomFixture {
     }
 
     process {
-        if ($RoomFixtureId) {
-            $path = "/api/room-fixtures/$RoomFixtureId`?"
+        if ($PSCmdlet.ParameterSetName -eq 'id') {
+            $path = "/api/room-fixtures/$RoomId-$FixtureId`?"
         }
         else {
             $path = '/api/room-fixtures?'
@@ -68,7 +66,10 @@ function Get-CTRoomFixture {
         $uri = [uri]::new($url, $path)
  
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers)
+            if ($result) {
+                $result
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {

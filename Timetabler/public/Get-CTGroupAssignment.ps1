@@ -1,9 +1,13 @@
 function Get-CTGroupAssignment {
     [CmdletBinding(DefaultParameterSetName='notid')]
     param (
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
         [Parameter(Mandatory, Position=0, ParameterSetName='id')]
-        [Alias('id')]
-        [string] $GroupAssignmentId,
+        [int] $EventId,
+
+        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory, Position=1, ParameterSetName='id')]
+        [int] $GroupId,
 
         [Parameter(ParameterSetName='notid')]
         [int] $Page,
@@ -13,12 +17,6 @@ function Get-CTGroupAssignment {
 
         [Parameter(ParameterSetName='notid')]
         [int] $PageSize,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $EventId,
-
-        [Parameter(ParameterSetName='notid',ValueFromPipelineByPropertyName)]
-        [int] $GroupId,
 
         [switch] $WeekStartingDates,
 
@@ -47,8 +45,8 @@ function Get-CTGroupAssignment {
     }
 
     process {
-        if ($GroupAssignmentId) {
-            $path = "/api/group-assignments/$GroupAssignmentId`?"
+        if ($PSCmdlet.ParameterSetName -eq 'id') {
+            $path = "/api/group-assignments/$EventId-$GroupId`?"
         }
         else {
             $path = '/api/group-assignments?'
@@ -84,7 +82,10 @@ function Get-CTGroupAssignment {
         $uri = [uri]::new($url, $path)
  
         try {
-            (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            $result = (Invoke-RestMethod -Uri $uri -Headers $headers) 
+            if ($result) {
+                $result
+            }
         }
         catch {
             if ($_.Exception.Response.StatusCode -ne 404) {
@@ -93,3 +94,5 @@ function Get-CTGroupAssignment {
         }
     }
 }
+
+New-Alias -Name Get-CTEventGroup -Value Get-CTGroupAssignment
